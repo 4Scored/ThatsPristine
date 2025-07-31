@@ -1,23 +1,35 @@
 import pandas as pd
+from dateutil import parser
 
 def convert_types(df, bool_involved=True):
     df = df.copy()
     for col in df.columns:
         converted = False
-                
+
+        # Numeric Conversion    
         try:
             df[col] = pd.to_numeric(df[col])
             converted = True
         except:
             pass
 
+        # Datetime Conversion
         try:
             if not converted:
-                df[col] = pd.to_datetime(df[col], format=f"%Y-%m-%d")
-                converted = True
+                parsed = [] 
+                for date in df[col]:
+                    try:
+                        parsed.append(parser.parse(str(date)))
+                    except:
+                        parsed.append(pd.NaT) 
+                parsed = pd.Series(parsed)  
+                if parsed.notna().sum() >= 0.95 * len(parsed):
+                    df[col] = parsed
+                    converted = True
         except:
             pass
 
+        # Boolean Conversion
         try:
             if bool_involved and not converted:
                 bool_like_vals = {"true" : True, "false" : False, 
