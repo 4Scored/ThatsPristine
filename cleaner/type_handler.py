@@ -23,7 +23,7 @@ def convert_types(df, bool_involved=True):
                     except:
                         parsed.append(pd.NaT) 
                 parsed = pd.Series(parsed)  
-                if parsed.notna().sum() >= 0.95 * len(parsed):
+                if parsed.notna().sum() >= 0.2 * len(parsed):
                     df[col] = parsed
                     converted = True
         except:
