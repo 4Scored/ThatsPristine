@@ -1,4 +1,3 @@
-import re
 import string
 
 def clean_text_data(df, normalize=False, remove_punc=False):
