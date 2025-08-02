@@ -9,11 +9,11 @@ def fill_missing_vals(df, numeric_fill_strat="mean", datetime_fill_strat="mean")
     for col in num_cols:
         try:
             if numeric_fill_strat == "mean":
-                df[col].fillna(value=df[col].mean(), inplace=True)
+                df[col] = df[col].fillna(value=df[col].mean())
             elif numeric_fill_strat == "median":
-                df[col].fillna(value=df[col].median(), inplace=True)
+                df[col] = df[col].fillna(value=df[col].median())
             elif numeric_fill_strat == "mode":
-                df[col].fillna(value=df[col].mode()[0], inplace=True)
+                df[col] = df[col].fillna(value=df[col].mode()[0])
             elif numeric_fill_strat == "knn":                
                 non_num_cols = df.drop(num_cols, axis=1)
                 knnImputer = KNNImputer(n_neighbors=2)
@@ -29,17 +29,17 @@ def fill_missing_vals(df, numeric_fill_strat="mean", datetime_fill_strat="mean")
     for col in datetime_cols:
         try:
             if datetime_fill_strat == "mean":
-                df[col].fillna(value=df[col].mean(), inplace=True)
+                df[col] = df[col].fillna(value=df[col].mean())
             elif datetime_fill_strat == "median":
-                df[col].fillna(value=df[col].median(), inplace=True)
+                df[col] = df[col].fillna(value=df[col].median())
             elif datetime_fill_strat == "mode":
-                df[col].fillna(value=df[col].mode()[0], inplace=True)
+                df[col] = df[col].fillna(value=df[col].mode()[0])
             elif datetime_fill_strat == "forward_backward": 
-                df[col].fillna(method="ffill", inplace=True)
-                df[col].fillna(method="bfill", inplace=True)
+                df[col] = df[col].ffill()
+                df[col] = df[col].bfill()
             elif datetime_fill_strat == "backward_forward": 
-                df[col].fillna(method="bfill", inplace=True)
-                df[col].fillna(method="ffill", inplace=True)
+                df[col] = df[col].bfill()
+                df[col] = df[col].ffill()                
         except:
             pass
 
