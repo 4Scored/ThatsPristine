@@ -1,8 +1,9 @@
 import pandas as pd
 from sklearn.impute import KNNImputer
 
-def fill_missing_vals(df, numeric_fill_strat="mean", datetime_fill_strat="mean"):
-    df = df.copy()
+def fill_missing_vals(df, numeric_fill_strat="mean", datetime_fill_strat="mean", inplace=False):
+    if not inplace:
+        df = df.copy()
 
     # Filling Numeric Columns
     num_cols = df.select_dtypes(include="number").columns
@@ -42,5 +43,5 @@ def fill_missing_vals(df, numeric_fill_strat="mean", datetime_fill_strat="mean")
                 df[col] = df[col].ffill()                
         except:
             pass
-
+    
     return df

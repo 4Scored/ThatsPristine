@@ -1,8 +1,10 @@
 import pandas as pd
 from dateutil import parser
 
-def convert_types(df, bool_involved=True):
-    df = df.copy()
+def convert_types(df, bool_involved=True, inplace=False):
+    if not inplace:
+        df = df.copy() 
+
     for col in df.columns:
         converted = False
 
@@ -47,4 +49,4 @@ def convert_types(df, bool_involved=True):
         except:
             pass
 
-    return df
+    return df 
