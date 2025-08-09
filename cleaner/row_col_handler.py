@@ -32,14 +32,14 @@ def handle_outliers(df, cols_criteria, handle_strat="iqr", inplace=False):
                 col_mask = pd.Series(True, index=df.index, dtype=bool) # "Do Nothing" Mask
             else:
                 lower_fence, upper_fence = q1 - 1.5*iqr, q3 + 1.5*iqr            
-                col_mask = ((x >= lower_fence) & (x <= upper_fence)) | x.isna()
+                col_mask = (x >= lower_fence) & (x <= upper_fence)
         elif handle_strat == "z_score":  
             col_mean, col_std = x.mean(), x.std()
             if pd.isna(col_std) or col_std == 0:
                 col_mask = pd.Series(True, index=df.index, dtype=bool)
             else:
                 z_scores = (x - col_mean) / col_std
-                col_mask = ((z_scores >= -3) & (z_scores <= 3)) | x.isna()
+                col_mask = (z_scores >= -3) & (z_scores <= 3)
         elif handle_strat == "quantile":
             q1, q3 = x.quantile(0.05), x.quantile(0.95)
             iqr = q3 - q1
@@ -47,7 +47,7 @@ def handle_outliers(df, cols_criteria, handle_strat="iqr", inplace=False):
                 col_mask = pd.Series(True, index=df.index, dtype=bool)
             else:
                 lower_fence, upper_fence = q1 - 1.5*iqr, q3 + 1.5*iqr
-                col_mask = ((x >= lower_fence) & (x <= upper_fence)) | x.isna()
+                col_mask = (x >= lower_fence) & (x <= upper_fence)
         else:
             warnings.warn(f"{handle_strat}: Unknown Outlier Handing Strategy")
             col_mask = pd.Series(True, index=df.index, dtype=bool)
