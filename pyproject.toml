@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=69", "wheel", "build"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "thatspristine"
+version = "0.1.0"
+description = "Quick general purpose python data cleaning"
+readme = "README.md"
+requires-python = ">=3.9"
+authors = [{ name = "4S" }]
+license = { text = "MIT" }
+keywords = ["data", "cleaning", "pandas"]
+
+dependencies = [
+  "pandas>=2.0",
+  "numpy>=1.24"
+]
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["cleaner*"]
